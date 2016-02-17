@@ -96,10 +96,12 @@ class FormUtility
         while ($row = $databaseConnection->sql_fetch_assoc($res)) {
             $checked = GeneralUtility::inList($subscribed_to_list, $row['uid']);
 
-            if ($theRow = $this->getTypoScriptFrontendController()->sys_page->getRecordOverlay('sys_dmail_category',
+            if ($theRow = $this->getTypoScriptFrontendController()->sys_page->getRecordOverlay(
+                'sys_dmail_category',
                 $row,
                 $this->getTypoScriptFrontendController()->sys_language_uid,
-                $conf['hideNonTranslatedCategories'] ? 'hideNonTranslated' : '')
+                $conf['hideNonTranslatedCategories'] ? 'hideNonTranslated' : ''
+            )
             ) {
                 $content .= '<label for="option-' . $i . '">' . htmlspecialchars($theRow['category']) . '</label><input id="option-' . $i . '" type="checkbox" ' . ($checked ? 'checked' : '') . ' name="FE[tt_address][module_sys_dmail_category][' . $row['uid'] . ']" value="1" /><div class="clearall"></div>';
             }
