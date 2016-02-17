@@ -920,7 +920,8 @@ class Plugin extends AbstractPlugin
 
     /**
      * Deletes the record from table/uid, $this->theTable/$this->recUid, IF the fe-user has permission to do so.
-     * If the deleted flag should just be set, then it is done so. Otherwise the record truely is deleted along with any attached files.
+     * If the deleted flag should just be set, then it is done so. Otherwise the record truely is deleted along with
+     * any attached files.
      * Called from init() if "cmd" was set to "delete" (and some other conditions)
      *
      * @return string void
@@ -989,7 +990,7 @@ class Plugin extends AbstractPlugin
     /**
      * Creates the preview display of delete actions
      *
-     * @return    string        HTML content
+     * @return string HTML content
      * @see init()
      */
     function displayDeleteScreen()
@@ -1056,9 +1057,6 @@ class Plugin extends AbstractPlugin
             }
 
             $content = $this->cObj->substituteMarkerArray($templateCode, $markerArray);
-            //$content .= $this->cObj->getUpdateJS($this->modifyDataArrForFormUpdate($this->dataArr),
-            //    $this->theTable . '_form', 'FE[' . $this->theTable . ']',
-            //    $this->fieldList . $this->additionalUpdateFields);
         }
 
         return $content;
@@ -1163,14 +1161,14 @@ class Plugin extends AbstractPlugin
         }
 
         $content = $this->cObj->substituteMarkerArray($templateCode, $markerArray);
-        $content .= $this->cObj->getUpdateJS($this->modifyDataArrForFormUpdate($currentArr), $this->theTable . '_form',
-            'FE[' . $this->theTable . ']', $this->fieldList . $this->additionalUpdateFields);
 
         return $content;
     }
 
     /**
-     * Processes socalled "setfixed" commands. These are commands setting a certain field in a certain record to a certain value. Like a link you can click in an email which will unhide a record to enable something. Or likewise a link which can delete a record by a single click.
+     * Processes socalled "setfixed" commands. These are commands setting a certain field in a certain record to a
+     * certain value. Like a link you can click in an email which will unhide a record to enable something.
+     * Or likewise a link which can delete a record by a single click.
      * The idea is that only some allowed actions like this is allowed depending on the configured TypoScript.
      *
      * @return    string        HTML content displaying the status of the action
@@ -1181,7 +1179,6 @@ class Plugin extends AbstractPlugin
         if ($this->conf['setfixed']) {
             $theUid = intval($this->recUid);
             $origArr = $this->getTypoScriptFrontendController()->sys_page->getRawRecord($this->theTable, $theUid);
-            $fD = GeneralUtility::_GP('fD');
             $sFK = GeneralUtility::_GP('sFK');
 
             $valuesConfiguredInTypoScript = isset($this->conf['setfixed.'][$sFK . '.']) ? $this->conf['setfixed.'][$sFK . '.'] : [];
@@ -1254,7 +1251,8 @@ class Plugin extends AbstractPlugin
     /**
      * Remove required parts from template code string
      *     Works like this:
-     *         - You insert subparts like this ###SUB_REQUIRED_FIELD_'.$theField.'### in the template that tells what is required for the field, if it's not correct filled in.
+     *         - You insert subparts like this ###SUB_REQUIRED_FIELD_'.$theField.'### in the template that tells
+     *           what is required for the field, if it's not correct filled in.
      *         - These subparts are all removed, except if the field is listed in $failure string!
      *        Only fields that are found in $this->requiredArr is processed.
      *
@@ -1670,6 +1668,8 @@ class Plugin extends AbstractPlugin
         if ($this->authCode && !strcmp($this->authCode, $this->authCode($r))) {
             return true;
         }
+
+        return false;
     }
 
     /**
