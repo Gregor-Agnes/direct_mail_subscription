@@ -569,13 +569,14 @@ class Plugin extends AbstractPlugin
                 $fileNameList[] = $fI2['basename'] . '|' . $infoArr['name'];
             } else {
                 $this->createFileFuncObj();
-                $this->getTypoScriptFrontendController()->includeTCA();
                 if (is_array($GLOBALS['TCA'][$this->theTable]['columns'][$theField])) {
                     $uploadPath = $GLOBALS['TCA'][$this->theTable]['columns'][$theField]['config']['uploadfolder'];
                 }
                 if ($uploadPath !== '') {
-                    $theDestFile = $this->fileFunc->getUniqueName($this->fileFunc->cleanFileName($infoArr['name']),
-                        PATH_site . $uploadPath);
+                    $theDestFile = $this->fileFunc->getUniqueName(
+                        $this->fileFunc->cleanFileName($infoArr['name']),
+                        PATH_site . $uploadPath
+                    );
                     GeneralUtility::upload_copy_move($infoArr['tmp_name'], $theDestFile);
                     // Setting the filename in the list
                     $fI2 = pathinfo($theDestFile);
