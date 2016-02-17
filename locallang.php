@@ -1,43 +1,42 @@
 <?php
-$LOCAL_LANG = Array (
-	"default" => Array (
-		"pi_dmail_subscr" => "DirectMail subscription",
-	),
-	"dk" => Array (
-		"pi_dmail_subscr" => "Nyhedsbrevstilmelding",
-	),
-	"de" => Array (
-		"pi_dmail_subscr" => "Direct Mail Anmeldung",
-	),
-	"no" => Array (
-		"pi_dmail_subscr" => "Nyhetsbrevsinnmelding",
-	),
-	"it" => Array (
-		"pi_dmail_subscr" => "Sottoscrizione Direct Mail",
-	),
-	"fr" => Array (
-		"pi_dmail_subscr" => "Inscription DirectMail",
-	),
-	"es" => Array (
-		"pi_dmail_subscr" => "Suscripción al Correo Directo",
-	),
-	"nl" => Array (
-		"pi_dmail_subscr" => "DirectMail abonnement",
-	),
-	"cz" => Array (
-		"pi_dmail_subscr" => "Subscripce Direct mail",
-	),
-	"pl" => Array (
-		"pi_dmail_subscr" => "Subskrybcja",
-	),
- 	"si" => Array (
-		"pi_dmail_subscr" => "DirectMail naroènina",
-	),
-	"fi" => Array (
-		"pi_dmail_subscr" => "Suora sähköposti tilaus",
-	),
-	"tr" => Array (
-		"pi_dmail_subscr" => "Doðrudan Mail abonmaný",
-	)
+$LOCAL_LANG = array(
+    'default' => array(
+        'pi_dmail_subscr' => 'DirectMail subscription',
+    ),
+    'dk' => array(
+        'pi_dmail_subscr' => 'Nyhedsbrevstilmelding',
+    ),
+    'de' => array(
+        'pi_dmail_subscr' => 'Direct Mail Anmeldung',
+    ),
+    'no' => array(
+        'pi_dmail_subscr' => 'Nyhetsbrevsinnmelding',
+    ),
+    'it' => array(
+        'pi_dmail_subscr' => 'Sottoscrizione Direct Mail',
+    ),
+    'fr' => array(
+        'pi_dmail_subscr' => 'Inscription DirectMail',
+    ),
+    'es' => array(
+        'pi_dmail_subscr' => 'Suscripción al Correo Directo',
+    ),
+    'nl' => array(
+        'pi_dmail_subscr' => 'DirectMail abonnement',
+    ),
+    'cz' => array(
+        'pi_dmail_subscr' => 'Subscripce Direct mail',
+    ),
+    'pl' => array(
+        'pi_dmail_subscr' => 'Subskrybcja',
+    ),
+    'si' => array(
+        'pi_dmail_subscr' => 'DirectMail naroènina',
+    ),
+    'fi' => array(
+        'pi_dmail_subscr' => 'Suora sähköposti tilaus',
+    ),
+    'tr' => array(
+        'pi_dmail_subscr' => 'Doðrudan Mail abonmaný',
+    )
 );
-?>

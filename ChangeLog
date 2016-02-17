@@ -1,3 +1,8 @@
+2016-02-17 Cedric Ziel <cedric@cedric-ziel.com>
+	* major changes for TYPO3 7 LTS compatibility
+	* transferred it to an AbstractPlugin
+	* modified FeAdmin logic to match current class names
+
 2014-12-31 Ivan Kartolo <ivan@kartolo.de>
 	* avoiding indexing and caching by search engine
 
