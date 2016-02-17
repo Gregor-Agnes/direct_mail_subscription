@@ -1,6 +1,6 @@
 plugin.feadmin.dmailsubscription {
     # cat=plugin.feadmin.dmailsubscription/file; type=file[html,htm,tmpl,txt]; label= Template File: HTML-template file
-    file.templateFile = EXT:direct_mail_subscription/Resources/Private/Template/fe_admin_dmailsubscrip.tmpl
+    file.templateFile = EXT:direct_mail_subscription/Resources/Private/Templates/fe_admin_dmailsubscrip.tmpl
 
     # cat=plugin.feadmin.dmailsubscription//; type=string; label= Administration email: Enter the administration email address here. This email address will be the sender email and also recieve administration notes.
     email =
