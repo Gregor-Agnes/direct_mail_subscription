@@ -48,7 +48,7 @@ use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
  * @author    Kasper Skårhøj <kasperYYYY@typo3.com>
  * @package TYPO3\DirectMailSubscription
  */
-class AdminLib extends AbstractPlugin
+class Plugin extends AbstractPlugin
 {
 
     /**
@@ -145,7 +145,7 @@ class AdminLib extends AbstractPlugin
      *
      * @return string HTML content
      */
-    function init($content, $conf)
+    public function init($content, $conf)
     {
         DebuggerUtility::var_dump($this);
         $this->conf = $conf;
