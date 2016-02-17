@@ -2,9 +2,29 @@
 
 namespace TYPO3\DirectMailSubscription;
 
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
+
+use TYPO3\CMS\Core\Localization\LocalizationFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
+/**
+ * Class FormUtility
+ * Contains hooks for the form processor
+ *
+ * @package TYPO3\DirectMailSubscription
+ */
 class FormUtility
 {
     /**
@@ -19,7 +39,6 @@ class FormUtility
     public $LLtestPrefix = '';                // You can set this during development to some value that makes it easy for you to spot all labels that ARe delivered by the getLL function.
     public $LLtestPrefixAlt = '';            // Save as LLtestPrefix, but additional prefix for the alternative value in getLL() function calls
 
-    public $scriptRelPath = 'pi/class.dmailsubscribe.php';
     public $extKey = 'direct_mail_subscription';
 
     /**
@@ -28,12 +47,12 @@ class FormUtility
     public function __construct()
     {
         $this->cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
-        $this->conf = $this->getTyposcripFrontendController()->tmpl->setup['plugin.']['feadmin.']['dmailsubscription.'];
+        $this->conf = $this->getTypoScriptFrontendController()->tmpl->setup['plugin.']['feadmin.']['dmailsubscription.'];
 
-        if ($this->getTyposcripFrontendController()->config['config']['language']) {
-            $this->LLkey = $this->getTyposcripFrontendController()->config['config']['language'];
-            if ($this->getTyposcripFrontendController()->config['config']['language_alt']) {
-                $this->altLLkey = $this->getTyposcripFrontendController()->config['config']['language_alt'];
+        if ($this->getTypoScriptFrontendController()->config['config']['language']) {
+            $this->LLkey = $this->getTypoScriptFrontendController()->config['config']['language'];
+            if ($this->getTypoScriptFrontendController()->config['config']['language_alt']) {
+                $this->altLLkey = $this->getTypoScriptFrontendController()->config['config']['language_alt'];
             }
         }
         $this->pi_loadLL();
@@ -54,8 +73,12 @@ class FormUtility
         $pid = $this->cObj->stdWrap($conf['pid'], $conf['pid.']);
 
         if ($address_uid = GeneralUtility::_GP('rU')) {
-            $res = $databaseConnection->exec_SELECTquery('*', 'sys_dmail_ttaddress_category_mm',
-                'uid_local=' . intval($address_uid));
+            $res = $databaseConnection->exec_SELECTquery(
+                '*',
+                'sys_dmail_ttaddress_category_mm',
+                'uid_local=' . intval($address_uid)
+            );
+
             $subscribed_to = [];
             while ($row = $databaseConnection->sql_fetch_assoc($res)) {
                 $subscribed_to[] = $row['uid_foreign'];
@@ -73,9 +96,9 @@ class FormUtility
         while ($row = $databaseConnection->sql_fetch_assoc($res)) {
             $checked = GeneralUtility::inList($subscribed_to_list, $row['uid']);
 
-            if ($theRow = $this->getTyposcripFrontendController()->sys_page->getRecordOverlay('sys_dmail_category',
+            if ($theRow = $this->getTypoScriptFrontendController()->sys_page->getRecordOverlay('sys_dmail_category',
                 $row,
-                $this->getTyposcripFrontendController()->sys_language_uid,
+                $this->getTypoScriptFrontendController()->sys_language_uid,
                 $conf['hideNonTranslatedCategories'] ? 'hideNonTranslated' : '')
             ) {
                 $content .= '<label for="option-' . $i . '">' . htmlspecialchars($theRow['category']) . '</label><input id="option-' . $i . '" type="checkbox" ' . ($checked ? 'checked' : '') . ' name="FE[tt_address][module_sys_dmail_category][' . $row['uid'] . ']" value="1" /><div class="clearall"></div>';
@@ -97,7 +120,7 @@ class FormUtility
 
         //check loaded LL
         if (!$this->LOCAL_LANG_loaded) {
-            $this->user_dmailsubscribe();
+            $this->pi_loadLL();
         }
 
         if (intval($conf['rec']['uid'])) {
@@ -155,7 +178,7 @@ class FormUtility
 
             // The "from" charset of csConv() is only set for strings from TypoScript via _LOCAL_LANG
             if (isset($this->LOCAL_LANG_charset[$this->LLkey][$key])) {
-                $word = $this->getTyposcripFrontendController()->csConv(
+                $word = $this->getTypoScriptFrontendController()->csConv(
                     $this->LOCAL_LANG[$this->LLkey][$key][0]['target'],
                     $this->LOCAL_LANG_charset[$this->LLkey][$key]
                 );
@@ -166,7 +189,7 @@ class FormUtility
 
             // The "from" charset of csConv() is only set for strings from TypoScript via _LOCAL_LANG
             if (isset($this->LOCAL_LANG_charset[$this->altLLkey][$key])) {
-                $word = $this->getTyposcripFrontendController()->csConv(
+                $word = $this->getTypoScriptFrontendController()->csConv(
                     $this->LOCAL_LANG[$this->altLLkey][$key][0]['target'],
                     $this->LOCAL_LANG_charset[$this->altLLkey][$key]
                 );
@@ -193,21 +216,31 @@ class FormUtility
     }
 
     /**
-     * Loads local-language values by looking for a "locallang.php" file in the plugin class directory ($this->scriptRelPath) and if found includes it.
-     * Also locallang values set in the TypoScript property "_LOCAL_LANG" are merged onto the values found in the "locallang.php" file.
+     * Loads local-language values by looking for a "locallang.php" file in the plugin class directory
+     * ($this->scriptRelPath) and if found includes it.
      *
-     * @return    void
+     * Also locallang values set in the TypoScript property "_LOCAL_LANG" are merged onto the values
+     * found in the "locallang.php" file.
+     *
+     * @return void
      */
     public function pi_loadLL()
     {
-        if (!$this->LOCAL_LANG_loaded && $this->scriptRelPath) {
-            $basePath = 'EXT:' . $this->extKey . '/' . dirname($this->scriptRelPath) . '/locallang.xml';
+        if (!$this->LOCAL_LANG_loaded) {
+            $fileRef = GeneralUtility::getFileAbsFileName('EXT:' . $this->extKey . '/Resources/Private/Language/locallang.xml');
+            /** @var LocalizationFactory $languageFactory */
+            $languageFactory = GeneralUtility::makeInstance(LocalizationFactory::class);
 
-            // Read the strings in the required charset (since TYPO3 4.2)
-            $this->LOCAL_LANG = GeneralUtility::readLLfile($basePath, $this->LLkey,
-                $this->getTyposcripFrontendController()->renderCharset);
             if ($this->altLLkey) {
-                $this->LOCAL_LANG = GeneralUtility::readLLfile($basePath, $this->altLLkey);
+                $this->LOCAL_LANG = $languageFactory->getParsedData(
+                    $fileRef,
+                    $this->LLkey
+                );
+            } else {
+                $this->LOCAL_LANG = $languageFactory->getParsedData(
+                    $fileRef,
+                    $this->altLLkey
+                );
             }
 
             // Overlaying labels from TypoScript (including fictitious language keys for non-system languages!):
@@ -221,14 +254,9 @@ class FormUtility
                         foreach ($languageArray as $labelKey => $labelValue) {
                             if (!is_array($labelValue)) {
                                 $this->LOCAL_LANG[$languageKey][$labelKey][0]['target'] = $labelValue;
-
-                                // For labels coming from the TypoScript (database) the charset is assumed to be "forceCharset"
-                                // and if that is not set, assumed to be that of the individual system languages
-                                if ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset']) {
-                                    $this->LOCAL_LANG_charset[$languageKey][$labelKey] = $GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'];
-                                } else {
-                                    $this->LOCAL_LANG_charset[$languageKey][$labelKey] = $this->getTyposcripFrontendController()->csConvObj->charSetArray[$languageKey];
-                                }
+                                $this->LOCAL_LANG_charset[$languageKey][$labelKey] = $this->getTypoScriptFrontendController()
+                                    ->csConvObj
+                                    ->charSetArray[$languageKey];
                             }
                         }
                     }
@@ -249,7 +277,7 @@ class FormUtility
     /**
      * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
      */
-    protected function getTyposcripFrontendController()
+    protected function getTypoScriptFrontendController()
     {
         return $GLOBALS['TSFE'];
     }
