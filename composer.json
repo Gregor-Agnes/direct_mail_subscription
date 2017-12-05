@@ -1,5 +1,5 @@
 {
-	"name": "typo3/direct_mail_subscription",
+	"name": "directmailteam/direct_mail_subscription",
 	"type": "typo3-cms-extension",
 	"description": "Manages Direct Mail Subscriptions",
 	"homepage": "http://typo3.org",
